@@ -44,8 +44,6 @@ Route::get('/route/{id}',['class' => $routeClass, 'uses' => $baseController.'@fi
 Route::post('/route',['class' => $routeClass, 'uses' => $baseController.'@create'])->name("driver.create");
 Route::put('/route/{id}',['class' => $routeClass, 'uses' => $baseController.'@update'])->name("driver.update");
 Route::delete('/route/{id}',['class' => $routeClass, 'uses' => $baseController.'@delete'])->name("driver.delete");
-
-
 Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login')->name('login');
     Route::post('/register', 'register')->name('register');;
