@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Driver;
+use Hamcrest\Arrays\IsArray;
 
 class BaseController extends Controller
 {
@@ -66,12 +67,13 @@ class BaseController extends Controller
         if($with){
             
             $entity= $class::with($fks)->where('id',$id)->get();
-
+            return response()->json($entity[0],200);    
         }else{
             $entity = $class::find($id);
+            return response()->json($entity,200);
         }
-
-        return response()->json($entity[0],200);
+             
+         
     }
 
     public  function update(Request $request, $id){
