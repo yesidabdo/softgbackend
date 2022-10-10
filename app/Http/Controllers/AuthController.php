@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use PHPOpenSourceSaver\JWTAuth\JWT;
+
 
 class AuthController extends Controller
 {
@@ -28,6 +31,7 @@ class AuthController extends Controller
                 'message' => 'Unauthorized',
             ], 401);
         }
+        $exp = JWTAuth::setToken($token)->getPayload()->get('exp');
 
         $user = Auth::user();
         return response()->json([
@@ -36,6 +40,7 @@ class AuthController extends Controller
                 'authorisation' => [
                     'token' => $token,
                     'type' => 'bearer',
+                    'expiresIn'=> $exp
                 ]
             ]);
 

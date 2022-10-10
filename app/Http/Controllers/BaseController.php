@@ -37,8 +37,18 @@ class BaseController extends Controller
     public function findAll(Request $request){
         $action = $request->route()->getAction();
         $class = $action["class"];
-              
-        $entity = $class::all();
+        $with = $action["with"]??'';
+        $fks = explode(',', $with);
+
+           
+        if($with){
+            
+            $entity = $class::with($fks)->get();
+
+        }else{
+            $entity = $class::all();
+        }
+        
         
 
         return response()->json($entity,200);
@@ -49,9 +59,19 @@ class BaseController extends Controller
         
         $action = $request->route()->getAction();
         $class = $action["class"];
-        $entity = $class::find($id);
+        $with = $action["with"]??'';
+        $fks = explode(',', $with);
 
-        return response()->json($entity,200);
+           
+        if($with){
+            
+            $entity= $class::with($fks)->where('id',$id)->get();
+
+        }else{
+            $entity = $class::find($id);
+        }
+
+        return response()->json($entity[0],200);
     }
 
     public  function update(Request $request, $id){

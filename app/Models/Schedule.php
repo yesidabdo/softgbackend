@@ -13,4 +13,12 @@ class Schedule extends Model
     {
         return $this->belongsTo(Route::class);
     }
+
+    protected $fillable=[
+        'route_id',
+        'from',
+        'to',
+        'week_num',
+        'active'
+    ];
 }

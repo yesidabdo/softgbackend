@@ -16,7 +16,7 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::middleware(['cors'])->group(function () {
+
 
 $baseController = "\App\Http\Controllers\BaseController";
 $driverClass ="App\Models\Driver";
@@ -39,11 +39,22 @@ Route::delete('/vehicle/{id}',['class' => $vehicleClass, 'uses' => $baseControll
 
 $routeClass ="App\Models\Route";
 
-Route::get('/route',['class' => $routeClass, 'uses' => $baseController.'@findAll'])->name("driver.findAll");
-Route::get('/route/{id}',['class' => $routeClass, 'uses' => $baseController.'@find'])->name("driver.find");
+Route::get('/route',['with' => 'vehicle,driver','class' => $routeClass, 'uses' => $baseController.'@findAll'])->name("driver.findAll");
+Route::get('/route/{id}',['with' => 'vehicle,driver','class' => $routeClass, 'uses' => $baseController.'@find'])->name("driver.find");
 Route::post('/route',['class' => $routeClass, 'uses' => $baseController.'@create'])->name("driver.create");
 Route::put('/route/{id}',['class' => $routeClass, 'uses' => $baseController.'@update'])->name("driver.update");
 Route::delete('/route/{id}',['class' => $routeClass, 'uses' => $baseController.'@delete'])->name("driver.delete");
+
+
+$routeClass ="App\Models\Schedule";
+
+Route::get('/schedule',['with' => 'route','class' => $routeClass, 'uses' => $baseController.'@findAll'])->name("driver.findAll");
+Route::get('/schedule/{id}',['with' => 'route','class' => $routeClass, 'uses' => $baseController.'@find'])->name("driver.find");
+Route::post('/schedule',['class' => $routeClass, 'uses' => $baseController.'@create'])->name("driver.create");
+Route::put('/schedule/{id}',['class' => $routeClass, 'uses' => $baseController.'@update'])->name("driver.update");
+Route::delete('/schedule/{id}',['class' => $routeClass, 'uses' => $baseController.'@delete'])->name("driver.delete");
+
+
 Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login')->name('login');
     Route::post('/register', 'register')->name('register');;
@@ -52,7 +63,7 @@ Route::controller(AuthController::class)->group(function () {
 
 });
 
-});
+
 
 
 
